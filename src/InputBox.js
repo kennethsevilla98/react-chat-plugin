@@ -23,7 +23,7 @@ export default function InputBox(props) {
 
   const onKeyPress = (e) => {
     if (
-      (props.onSendKey === undefined || e[props.onSendKey]) &&
+      
       e.charCode === 13
     ) {
       const str = strip(inputText);
