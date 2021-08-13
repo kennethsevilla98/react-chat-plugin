@@ -69,6 +69,7 @@ class ChatBox extends React.Component {
             style={{
               height: height,
               width: width,
+              position: 'relative'
             }}
           >
             <div
@@ -85,6 +86,10 @@ class ChatBox extends React.Component {
                     left={true}
                   />
                 )}
+
+              </div>
+              <div style={{position:'absolute'}}>
+                <button>See New message</button>
               </div>
             </div>
             <InputBox
@@ -92,7 +97,7 @@ class ChatBox extends React.Component {
               disabled={disableInput}
               placeholder={placeholder}
               disabledInputPlaceholder={disabledInputPlaceholder}
-              onSendKey={onSendKey}
+              // onSendKey={onSendKey}
             />
           </div>
         </div>
