@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import PropTypes from 'prop-types';
 
 import { KEYS, TIMESTAMPFORMAT } from './constant';
@@ -7,27 +7,82 @@ import MessageBox from './MessageBox';
 
 import './ChatBox.css';
 
+
 class ChatBox extends React.Component {
   constructor(props) {
     super(props);
 
     this.scrollToBottom = this.scrollToBottom.bind(this);
     this.handleOnSendMessage = this.handleOnSendMessage.bind(this);
+    this.scrollCheck = this.scrollCheck.bind(this);
+    
+    this.state = {
+      newMessage: false,// header widths,
+      isBottom: false
+    };
   }
+
+
+  scrollCheck(event) {
+    const bottom = event.target.scrollHeight - event.target.scrollTop === event.target.clientHeight;
+    if (bottom) {
+      this.setState({isBottom: true})
+    }
+    else{
+      this.setState({isBottom: false})
+
+    }
+  };
+
 
   scrollToBottom() {
     if (this.messagesList) {
       this.messagesList.scrollTop =
         this.messagesList.scrollHeight - this.messagesList.clientHeight;
+        console.log(this.messagesList.scrollTop,this.messagesList.scrollHeight - this.messagesList.clientHeight)
     }
   }
 
+
+
+  onClick() {
+    this.setState({newMessage: false})
+
+ }
   componentDidMount() {
     this.scrollToBottom();
   }
 
-  componentDidUpdate() {
-    this.scrollToBottom();
+  componentDidUpdate(prevProps) {
+
+    
+
+    
+
+
+  //   if (bottom) {
+  //     console.log("you're at the bottom of the page");
+  //     // Show loading spinner and make fetch request to api
+  //  }
+   
+ 
+   
+    if (prevProps.messages !== this.props.messages) {
+      if(this.state.isBottom){
+        this.scrollToBottom();
+        }
+        else
+        { 
+          if( this.messagesList.scrollHeight > this.messagesList.clientHeight)
+        this.setState({newMessage: true})
+        }
+      }
+   
+  
+  //  if (!this.state.newMessage) {
+  //   this.setState({newMessage: true})
+  // }
+  // console.log(this.messagesList.scrollHeight,this.messagesList.clientHeight)
   }
 
   handleOnSendMessage(message) {
@@ -49,6 +104,8 @@ class ChatBox extends React.Component {
       activeAuthor,
       onSendKey,
     } = this.props;
+
+    console.log(this.state.newMessage)
 
     const messageList = messages.map((message, idx) => {
       return (
@@ -75,6 +132,7 @@ class ChatBox extends React.Component {
             <div
               className="react-chat-messagesList"
               ref={(el) => (this.messagesList = el)}
+              onScroll =  {this.scrollCheck}
             >
               <div className="react-chat-messagesListContent">
                 {messageList}
@@ -88,16 +146,21 @@ class ChatBox extends React.Component {
                 )}
 
               </div>
-              <div style={{position:'absolute'}}>
-                <button>See New message</button>
-              </div>
+              {
+                this.state.newMessage?
+                 <div style={{position:'absolute',bottom: 50, justifyContent:'center',alignContent: 'center', width: '100%'}}>
+                 <button onClick={() => { this.scrollToBottom();this.onClick();}} style={{backgroundColor: '#4CAF50',border:'none',padding:10,cursor: 'pointer',fontSize: 16, color: '#fff',width: '90%', borderRadius: 20, marginLeft: 10, marginRight: 10}}>See New Messages</button>
+               </div>
+               :null
+              }
+             
             </div>
             <InputBox
               onSendMessage={this.handleOnSendMessage}
               disabled={disableInput}
               placeholder={placeholder}
               disabledInputPlaceholder={disabledInputPlaceholder}
-              // onSendKey={onSendKey}
+              onSendKey={onSendKey}
             />
           </div>
         </div>
@@ -121,7 +184,6 @@ ChatBox.propTypes = {
   activeAuthor: PropTypes.object,
   onSendKey: PropTypes.oneOf(KEYS),
 };
-
 ChatBox.defaultProps = {
   messages: [],
   timestampFormat: 'calendar',
