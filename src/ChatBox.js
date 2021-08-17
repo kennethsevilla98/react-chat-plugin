@@ -150,7 +150,7 @@ class ChatBox extends React.Component {
                  <div style={{position:'absolute',bottom: 50, justifyContent:'center',alignContent: 'center', width: '100%'}}>
                  <button onClick={() => { this.scrollToBottom();this.onClick();}} style={{backgroundColor: '#4CAF50',border:'none',padding:10,cursor: 'pointer',fontSize: 16, color: '#fff',width: '90%', borderRadius: 20, marginLeft: 10, marginRight: 10}}>See New Messages</button>
                </div>
-              ) : null}
+             : null}
             </div>
             <InputBox
               onSendMessage={this.handleOnSendMessage}
