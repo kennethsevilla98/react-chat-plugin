@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { KEYS, TIMESTAMPFORMAT } from './constant';
@@ -6,7 +6,6 @@ import InputBox from './InputBox';
 import MessageBox from './MessageBox';
 
 import './ChatBox.css';
-
 
 class ChatBox extends React.Component {
   constructor(props) {
@@ -22,49 +21,36 @@ class ChatBox extends React.Component {
     };
   }
 
-
   scrollCheck(event) {
     const bottom =
       event.target.scrollHeight - event.target.scrollTop ===
       event.target.clientHeight;
     if (bottom) {
       this.setState({ isBottom: true });
-    }
-    else{
+    } else {
       this.setState({ isBottom: false });
     }
   }
-
 
   scrollToBottom() {
     if (this.messagesList) {
       this.messagesList.scrollTop =
         this.messagesList.scrollHeight - this.messagesList.clientHeight;
-      console.log(
-        this.messagesList.scrollTop,
-        this.messagesList.scrollHeight - this.messagesList.clientHeight
-      );
+ 
     }
   }
-
-
 
   onClick() {
     this.setState({ newMessage: false });
   }
+
   componentDidMount() {
     this.scrollToBottom();
   }
 
   componentDidUpdate(prevProps) {
-
-    
-
-    
-
-
-  //   if (bottom) {
-  //     console.log("you're at the bottom of the page");
+    //   if (bottom) {
+    //     console.log("you're at the bottom of the page");
     //     // Show loading spinner and make fetch request to api
     //  }
 
@@ -72,16 +58,12 @@ class ChatBox extends React.Component {
       if (this.state.isBottom) {
         this.scrollToBottom();
       } else {
-        if (this.messagesList.scrollHeight > this.messagesList.clientHeight)
+        if (this.messagesList.scrollHeight > this.messagesList.clientHeight) {
           this.setState({ newMessage: true });
+        }
       }
     }
 
-  
-  //  if (!this.state.newMessage) {
-  //   this.setState({newMessage: true})
-    // }
-    // console.log(this.messagesList.scrollHeight,this.messagesList.clientHeight)
   }
 
   handleOnSendMessage(message) {
@@ -104,7 +86,7 @@ class ChatBox extends React.Component {
       onSendKey,
     } = this.props;
 
-    console.log(this.state.newMessage);
+
 
     const messageList = messages.map((message, idx) => {
       return (
@@ -143,14 +125,39 @@ class ChatBox extends React.Component {
                     left={true}
                   />
                 )}
-
               </div>
-              {
-                this.state.newMessage?
-                 <div style={{position:'absolute',bottom: 50, justifyContent:'center',alignContent: 'center', width: '100%'}}>
-                 <button onClick={() => { this.scrollToBottom();this.onClick();}} style={{backgroundColor: '#4CAF50',border:'none',padding:10,cursor: 'pointer',fontSize: 16, color: '#fff',width: '90%', borderRadius: 20, marginLeft: 10, marginRight: 10}}>See New Messages</button>
-               </div>
-             : null}
+              {this.state.newMessage ? (
+                <div
+                  style={{
+                    position: 'absolute',
+                    bottom: 50,
+                    justifyContent: 'center',
+                    alignContent: 'center',
+                    width: '100%',
+                  }}
+                >
+                  <button
+                    onClick={() => {
+                      this.scrollToBottom();
+                      this.onClick();
+                    }}
+                    style={{
+                      backgroundColor: '#4CAF50',
+                      border: 'none',
+                      padding: 10,
+                      cursor: 'pointer',
+                      fontSize: 16,
+                      color: '#fff',
+                      width: '90%',
+                      borderRadius: 20,
+                      marginLeft: 10,
+                      marginRight: 10,
+                    }}
+                  >
+                    See New Messages
+                  </button>
+                </div>
+              ) : null}
             </div>
             <InputBox
               onSendMessage={this.handleOnSendMessage}

@@ -22,14 +22,16 @@ export default function InputBox(props) {
   };
 
   const onKeyPress = (e) => {
-    if (
-      (props.onSendKey === undefined || e[props.onSendKey]) &&
-      e.charCode === 13
-    ) {
-      const str = strip(inputText);
-      if (str.length) {
-        sendMessage(str);
-      }
+    
+    const keyCode = e.which || e.keyCode;
+
+    if ((props.onSendKey === undefined || e[props.onSendKey]) && keyCode === 13 && !e.shiftKey)
+      {
+        e.preventDefault();
+          const str = strip(inputText);
+          if (str.length) {
+            sendMessage(str);
+            }
       e.preventDefault();
       return false;
     }
