@@ -27,6 +27,7 @@ class ChatBox extends React.Component {
       event.target.clientHeight;
     if (bottom) {
       this.setState({ isBottom: true });
+      this.setState({newMessage: false})
     } else {
       this.setState({ isBottom: false });
     }
