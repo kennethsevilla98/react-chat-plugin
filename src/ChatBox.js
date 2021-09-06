@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { KEYS, TIMESTAMPFORMAT } from './constant';
 import InputBox from './InputBox';
 import MessageBox from './MessageBox';
+import Arrow from './arrow.svg';
 
 import './ChatBox.css';
 
@@ -132,31 +133,25 @@ class ChatBox extends React.Component {
                   style={{
                     position: 'absolute',
                     bottom: 50,
-                    justifyContent: 'center',
-                    alignContent: 'center',
-                    width: '100%',
+                    left:0,
+                    right:0,
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    width: '20%',
+                   
+                  
                   }}
+
+                  onClick={() => {
+                    this.scrollToBottom();
+                    this.onClick();}}
                 >
-                  <button
-                    onClick={() => {
-                      this.scrollToBottom();
-                      this.onClick();
-                    }}
-                    style={{
-                      backgroundColor: '#4CAF50',
-                      border: 'none',
-                      padding: 10,
-                      cursor: 'pointer',
-                      fontSize: 16,
-                      color: '#fff',
-                      width: '90%',
-                      borderRadius: 20,
-                      marginLeft: 10,
-                      marginRight: 10,
-                    }}
-                  >
-                    See New Messages
-                  </button>
+              
+                    <Arrow  alt="close bubble"
+                   height="48x"
+                   width="48px"
+                   viewBox="0 0 26 26"/>
+                  
                 </div>
               ) : null}
             </div>
